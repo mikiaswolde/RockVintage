@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 header('Content-Type: application/json');
 session_start();
 require 'db.php';
@@ -34,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_result($user_id, $hashed_password, $user_role);
         $stmt->fetch();
         if (password_verify($password, $hashed_password)) {
+            session_regenerate_id(true);
             $_SESSION['user_id'] = $user_id;
             $_SESSION['email'] = $email;
             $_SESSION['role'] = $user_role;
